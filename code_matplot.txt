@@ -1,0 +1,28 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+size = 10
+y1 = [6, 5, 8, 5, 6, 6, 8, 9, 8, 10]
+y2 = [5, 3, 6, 4, 3, 4, 7, 4, 4, 6]
+y3 = [4, 1, 2, 1, 2, 1, 6, 2, 3, 2]
+
+x = np.arange(size)
+total_width, n = 0.8, 3     # 有多少个类型，只需更改n即可
+width = total_width / n
+x = x - (total_width - width) / 2
+
+plt.bar(x, y1,  width=width, label='label1',color='red')
+plt.bar(x + width, y2, width=width, label='label2',color='deepskyblue')
+plt.bar(x + 2 * width, y3, width=width, label='label3', color='green')
+
+plt.xticks()
+plt.legend(loc="upper left")  # 防止label和图像重合显示不出来
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+plt.ylabel('value')
+plt.xlabel('line')
+plt.rcParams['savefig.dpi'] = 300  # 图片像素
+plt.rcParams['figure.dpi'] = 300  # 分辨率
+plt.rcParams['figure.figsize'] = (15.0, 8.0)  # 尺寸
+plt.title("title")
+# plt.savefig('D:\\result.png')
+plt.show()

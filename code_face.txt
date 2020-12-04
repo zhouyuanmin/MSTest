@@ -1,0 +1,24 @@
+import cv2
+
+img=cv2.imread('https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3205538203,3841525373&fm=26&gp=0.jpg')
+gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2BGRA)
+faceCascade = cv2.CascadeClassifier('/haarcascade_frontalface_default.xml')
+# 眼睛分类器
+eyeCascade = cv2.CascadeClassifier('/haarcascade_eye.xml')
+
+faces = faceCascade.detectMultiScale(gray_img, scaleFactor=1.3,minNeighbors=3, minSize=(32, 32))
+# 在检测人脸的基础上检测眼睛
+for (x, y, w, h) in faces:
+    fac_gray = gray_img[y: (y + h), x:(x + w)]
+    result = []
+    eyes = eyeCascade.detectMultiScale(fac_gray, 1.3, 2)
+for (x, y, w, h) in faces:
+    cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 0), 2)
+# 显示标注眼睛
+for (ex, ey, ew, eh) in eyes:
+    result.append((x + ex, y + ey, ew, eh))
+for (ex, ey, ew, eh) in result:
+    cv2.rectangle(img, (ex, ey), (ex + ew, ey + eh), (255, 255, 0), 2)
+cv2.imshow('face', img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

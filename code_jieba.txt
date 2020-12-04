@@ -1,0 +1,46 @@
+#CalThreeKingdomsV2.py
+
+#统计三国人物出场频率  url='https://python123.io/resources/pye/threekingdoms.txt'
+import jieba, requests
+
+def getText():
+    #下载到本地，或者直接爬下来
+    #txt = open('threekingdoms.txt','r',encoding= 'utf-8').read()
+    try:
+        re = requests.get(url='https://python123.io/resources/pye/threekingdoms.txt',timeout=30)
+        re.raise_for_status()           #如果状态不是200引发HTTPError异常
+        re.encoding = re.apparent_encoding
+        return re.text
+    except:
+        return ''
+
+#剔除非名字
+excludes = {"将军",'却说','荆州','二人','不可','军马','引兵','次日','大喜',
+            '不能','如此','商议','如何','军士','左右','\r\n'}
+
+words = jieba.lcut(getText())
+
+counts = {}
+
+for word in words:
+    if len(word) == 1 :
+        continue
+    elif '诸葛亮' == word or '孔明曰'==word:
+        rword = '孔明'
+    elif '关公' == word or '云长' ==  word:
+        rword = '关羽'
+    elif '玄德' ==word or '玄德曰' ==word:
+        rword = '刘备'
+    elif '孟德'==word:
+        rword = '曹操'
+    else:
+        rword = word
+    counts[rword] = counts.get(rword,0)+1
+for word in excludes:
+    if word in counts:
+        del counts[word]
+items = list(counts.items())
+items.sort(key= lambda x:x[1],reverse=True)
+for i in range(10):
+    word, count = items[i]
+    print('{0:<10}{1:>5}'.format(word,count))

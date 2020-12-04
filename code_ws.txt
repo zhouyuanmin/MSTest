@@ -1,0 +1,9 @@
+print(233)
+import time
+if 1==2:
+    print("哈哈哈")
+else:
+    print("不要吃我！")
+for i in range(1):
+    print("cycle 12345678987654321")
+
