@@ -8,8 +8,8 @@ from websocket._exceptions import WebSocketConnectionClosedException
 # address = "ws://39.102.79.219:8101/3d/v1/wss_back/"
 # address = "ws://127.0.0.1:30003/3d/v1/face_back/"
 # 测试ai
-address = "ws://127.0.0.1:30003/ai/v2/wss_back/"
-f1 = open("code_face.txt", "r+", encoding="utf-8")
+address = "ws://127.0.0.1:30002/base/v2/wss_back/"
+f1 = open("code_ws_while.txt", "r+", encoding="utf-8")
 code_t = str(f1.read()).encode("u8")
 code_str: str = base64.b64encode(code_t).decode("u8")
 json_str = {"type": 1,
@@ -25,8 +25,13 @@ class WebSocket:
         # print("Sending ...")
         self.ws.send(json.dumps(params))
         # print("Receiving...")
-        result = self.ws.recv()
-        print("Received '{}'".format(result[0:23]))
+        # result = self.ws.recv()
+        # print("Received '{}'".format(result))
+        while True:
+            result = self.ws.recv()
+            print("Received '{}'".format(result))
+            if '[ERROR]' in result:
+                break
 
     def quit(self):
         self.ws.close()
@@ -47,7 +52,7 @@ if __name__ == '__main__':
     print(f'begin:{time.strftime("%Y-%m-%d %H:%M:%S")}')
     for i in range(1):
         print(f'time:{time.strftime("%Y-%m-%d %H:%M:%S")}')
-        for _ in range(5):
+        for _ in range(2):
             t1 = threading.Thread(target=run)
             t1.start()
         time.sleep(1)

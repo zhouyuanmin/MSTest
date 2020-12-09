@@ -1,0 +1,7 @@
+import time
+n = 1
+while True:
+    import ddm
+    print(f'hello={n}',flush=True)
+    time.sleep(10)
+    n = n + 1
